@@ -1,0 +1,40 @@
+{
+  "search.exclude": {
+    ".mypy_cache/": true,
+    ".pytest_cache/": true
+  },
+  "python.testing.unittestArgs": ["-v", "-s", "./tests", "-p", "test*.py"],
+  "python.testing.pytestEnabled": false,
+  "python.testing.unittestEnabled": true,
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "python.analysis.typeCheckingMode": "off",
+  "python.analysis.ignore": ["**/tests/**", "**/node_modules/**", "**/venv/**"],
+  "cSpell.words": [
+    "ADJF",
+    "ADJS",
+    "ADVB",
+    "Grammemes",
+    "GRND",
+    "INFN",
+    "INTJ",
+    "multiword",
+    "NPRO",
+    "NUMR",
+    "Opencorpora",
+    "PNCT",
+    "PRCL",
+    "PRTF",
+    "PRTS",
+    "pymorphy",
+    "razdel",
+    "rumodel",
+    "tagset",
+    "unknwn"
+  ],
+  "cSpell.language": "en,ru",
+  "cSpell.ignorePaths": ["node_modules/**", "*.json"]
+}

@@ -1,0 +1,14 @@
+
+~$*
+.vs
+.pytest_cache
+__pycache__
+
+build/
+whl/
+venv/
+output/
+
+*egg-info
+
+nosetests.xml
