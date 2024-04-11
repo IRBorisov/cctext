@@ -1,5 +1,5 @@
 '''
-Concept API Python functions.
+Core API Python procedures.
 
 ::guarantee:: doesn't raise exceptions and returns workable outputs
 '''
@@ -19,11 +19,6 @@ def parse(text: str, require_grams: str = '') -> str:
         return ''
     result = model.get_morpho().to_text()
     return result if result != 'UNKN' else ''
-
-
-# def parse_variants(text: str, require_grams: str = '') -> list[tuple[str, str]]:
-#     ''' Get all variants of a parse.
-#     ::returns:: string of comma separated grammar tags or empty string '''
 
 
 def generate_lexeme(text_normal: str) -> list[tuple[str, str]]:

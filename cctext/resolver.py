@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 from .rumodel import split_grams
 
-from .conceptapi import inflect_dependant
+from .api import inflect_dependant
 from .context import TermContext
 from .reference import EntityReference, SyntacticReference, parse_reference, Reference
 

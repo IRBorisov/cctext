@@ -17,8 +17,8 @@ class TermForm(TypedDict):
 def _match_grams(query: Iterable[str], test: Iterable[str]) -> bool:
     ''' Check if grams from test fit query. '''
     for gram in test:
-        if not gram in query:
-            if not gram in WordTag.PARTS_OF_SPEECH:
+        if gram not in query:
+            if gram not in WordTag.PARTS_OF_SPEECH:
                 return False
             for pos in WordTag.PARTS_OF_SPEECH:
                 if pos in query:
@@ -35,7 +35,7 @@ def _search_form(query: Iterable[str], data: Iterable[TermForm]) -> Optional[str
 
 class Entity:
     ''' Represents text entity. '''
-    def __init__(self, alias: str, nominal: str, manual_forms: Optional[Iterable[TermForm]]=None):
+    def __init__(self, alias: str, nominal: str, manual_forms: Optional[Iterable[TermForm]] = None):
         if manual_forms is None:
             self.manual = []
         else:

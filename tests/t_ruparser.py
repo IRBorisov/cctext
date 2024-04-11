@@ -7,6 +7,7 @@ from cctext import PhraseParser
 parser = PhraseParser()
 
 
+# cSpell:disable
 class TestRuParser(unittest.TestCase):
     ''' Test class for russian parsing. '''
 
@@ -28,25 +29,25 @@ class TestRuParser(unittest.TestCase):
 
     def test_parse_word(self):
         ''' Test parse for single word. '''
-        self._assert_parse('1',          ['NUMB', 'intg'])
-        self._assert_parse('пять',       ['NUMR', 'nomn'])
-        self._assert_parse('трёх',       ['NUMR', 'gent'])
-        self._assert_parse('трех',       ['NUMR', 'gent'])
-        self._assert_parse('круча',      ['NOUN', 'femn', 'sing', 'nomn', 'inan'])
-        self._assert_parse('круть',      ['NOUN', 'femn', 'sing', 'nomn', 'inan', 'Sgtm', 'Geox'])
-        self._assert_parse('ПВО',        ['NOUN', 'femn', 'sing', 'nomn', 'inan', 'Sgtm', 'Abbr', 'Fixd'])
-        self._assert_parse('СМИ',        ['NOUN',         'plur', 'nomn', 'inan', 'Pltm', 'Abbr', 'Fixd', 'GNdr'])
-        self._assert_parse('ему',        ['NPRO', 'masc', 'sing', 'datv', '3per', 'Anph'])
-        self._assert_parse('крутит',     ['VERB',         'sing',         '3per', 'pres', 'impf', 'tran', 'indc'])
-        self._assert_parse('смеркалось', ['VERB', 'neut', 'sing',         'Impe', 'past', 'impf', 'intr', 'indc'])
-        self._assert_parse('крутить',    ['INFN',                                         'impf', 'tran'])
-        self._assert_parse('крученый',   ['ADJF', 'masc', 'sing', 'nomn'])
-        self._assert_parse('крут',       ['ADJS', 'masc', 'sing',         'Qual'])
-        self._assert_parse('крутящего',  ['PRTF', 'masc', 'sing', 'gent',         'pres', 'impf', 'tran', 'actv'])
-        self._assert_parse('откручен',   ['PRTS', 'masc', 'sing',                 'past', 'perf',         'pssv'])
-        self._assert_parse('крутя',      ['GRND',                                 'pres', 'impf', 'tran'])
-        self._assert_parse('круто',      ['ADVB'])
-        self._assert_parse('круче',      ['COMP', 'Qual'])
+        self._assert_parse('1', ['NUMB', 'intg'])
+        self._assert_parse('пять', ['NUMR', 'nomn'])
+        self._assert_parse('трёх', ['NUMR', 'gent'])
+        self._assert_parse('трех', ['NUMR', 'gent'])
+        self._assert_parse('круча', ['NOUN', 'femn', 'sing', 'nomn', 'inan'])
+        self._assert_parse('круть', ['NOUN', 'femn', 'sing', 'nomn', 'inan', 'Sgtm', 'Geox'])
+        self._assert_parse('ПВО', ['NOUN', 'femn', 'sing', 'nomn', 'inan', 'Sgtm', 'Abbr', 'Fixd'])
+        self._assert_parse('СМИ', ['NOUN', 'plur', 'nomn', 'inan', 'Pltm', 'Abbr', 'Fixd', 'GNdr'])
+        self._assert_parse('ему', ['NPRO', 'masc', 'sing', 'datv', '3per', 'Anph'])
+        self._assert_parse('крутит', ['VERB', 'sing', '3per', 'pres', 'impf', 'tran', 'indc'])
+        self._assert_parse('смеркалось', ['VERB', 'neut', 'sing', 'Impe', 'past', 'impf', 'intr', 'indc'])
+        self._assert_parse('крутить', ['INFN', 'impf', 'tran'])
+        self._assert_parse('крученый', ['ADJF', 'masc', 'sing', 'nomn'])
+        self._assert_parse('крут', ['ADJS', 'masc', 'sing', 'Qual'])
+        self._assert_parse('крутящего', ['PRTF', 'masc', 'sing', 'gent', 'pres', 'impf', 'tran', 'actv'])
+        self._assert_parse('откручен', ['PRTS', 'masc', 'sing', 'past', 'perf', 'pssv'])
+        self._assert_parse('крутя', ['GRND', 'pres', 'impf', 'tran'])
+        self._assert_parse('круто', ['ADVB'])
+        self._assert_parse('круче', ['COMP', 'Qual'])
         self._assert_parse(',', ['PNCT'])
         self._assert_parse('32-', ['intg', 'NUMB'])
 
@@ -199,7 +200,7 @@ class TestRuParser(unittest.TestCase):
         self._assert_inflect('три', ['loct'], 'трёх')
 
     def test_inflect_adjf(self):
-        ''' Test inflection for single adjectif. '''
+        ''' Test inflection for single adjective. '''
         self._assert_inflect('хороший', ['nomn'], 'хороший')
         self._assert_inflect('хороший', ['gent'], 'хорошего')
         self._assert_inflect('хороший', ['datv'], 'хорошему')
@@ -317,8 +318,8 @@ class TestRuParser(unittest.TestCase):
 
         # self._assert_inflect('реципиенту воздействия', ['nomn'], 'реципиент воздействия')
 
-    def test_inflect_complex_mainword(self):
-        ''' Test inflection of mainword conmprised of multiple words. '''
+    def test_inflect_complex_main(self):
+        ''' Test inflection of main word comprised of multiple words. '''
         # Do not parse complex main words
         self._assert_inflect('слона и кота', ['nomn'], 'слон и кота')
         self._assert_inflect('сказал и поехал', ['INFN'], 'сказать и поехал')
@@ -440,6 +441,7 @@ class TestRuParser(unittest.TestCase):
         self.assertEqual(parser.find_substr('сложного слона', 'слоном'), (9, 14))
         self.assertEqual(parser.find_substr('сложного красивого слона', 'красивые слоном'), (9, 24))
         self.assertEqual(parser.find_substr('человек', 'люди'), (0, 7))
+# cSpell:enable
 
 
 if __name__ == '__main__':

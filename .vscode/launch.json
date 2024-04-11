@@ -17,6 +17,13 @@
       "request": "launch",
       "script": "${workspaceFolder}/scripts/RunLint.ps1",
       "args": []
+    },
+    {
+      "name": "Setup",
+      "type": "PowerShell",
+      "request": "launch",
+      "script": "${workspaceFolder}/scripts/Setup.ps1",
+      "args": []
     }
   ]
 }

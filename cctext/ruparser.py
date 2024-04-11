@@ -1,4 +1,4 @@
-''' Parsing russian language using pymorphy3 library. '''
+''' Parsing russian language based on pymorphy3 library. '''
 from __future__ import annotations
 from typing import Optional
 
@@ -155,9 +155,9 @@ class PhraseParser:
     def parse(self, text: str,
               require_index: int = INDEX_NONE,
               require_grams: Optional[Grammemes] = None) -> Optional[Collation]:
-        ''' 
+        '''
         Determine morpho tags for input text.
-        ::returns:: Morphology of a text or None if no suitable form is available 
+        ::returns:: Morphology of a text or None if no suitable form is available
         '''
         segments = list(RuSyntax.tokenize(text))
         if len(segments) == 0:

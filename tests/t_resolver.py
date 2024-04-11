@@ -28,24 +28,52 @@ class TestResolver(unittest.TestCase):
         self.context['X2'] = Entity('X2', '')
         self.resolver = Resolver(self.context)
 
+
     def test_resolve_entity(self):
-        self.assertEqual(resolve_entity(EntityReference('X1', ''), self.context), 'человек')
-        self.assertEqual(resolve_entity(EntityReference('X1', 'plur'), self.context), 'люди')
-        self.assertEqual(resolve_entity(EntityReference('X2', ''), self.context), '!Отсутствует термин: X2!')
-        self.assertEqual(resolve_entity(EntityReference('X1', 'invalid'), self.context), '!Неизвестная граммема: invalid!')
-        self.assertEqual(resolve_entity(EntityReference('X123', 'plur'), self.context), '!Неизвестная сущность: X123!')
+        ref = EntityReference('X1', '')
+        self.assertEqual(resolve_entity(ref, self.context), 'человек')
+
+        ref = EntityReference('X1', 'plur')
+        self.assertEqual(resolve_entity(ref, self.context), 'люди')
+
+        ref = EntityReference('X2', '')
+        self.assertEqual(resolve_entity(ref, self.context), '!Отсутствует термин: X2!')
+
+        ref = EntityReference('X1', 'invalid')
+        self.assertEqual(resolve_entity(ref, self.context), '!Неизвестная граммема: invalid!')
+
+        ref = EntityReference('X123', 'plur')
+        self.assertEqual(resolve_entity(ref, self.context), '!Неизвестная сущность: X123!')
+
 
     def test_resolve_syntactic(self):
         ref = ResolvedReference(ref=EntityReference('X1', 'sing,datv'), resolved='человеку')
         refs_list = [ref, ref, ref, ref]
-        self.assertEqual(resolve_syntactic(SyntacticReference(text='умный', referral_offset=-1), 0, refs_list), '!Некорректное смещение: -1!')
-        self.assertEqual(resolve_syntactic(SyntacticReference(text='умный', referral_offset=1), 3, refs_list), '!Некорректное смещение: 1!')
-        self.assertEqual(resolve_syntactic(SyntacticReference(text='умный', referral_offset=1), 0, refs_list), 'умному')
-        self.assertEqual(resolve_syntactic(SyntacticReference(text='умный', referral_offset=2), 0, refs_list), 'умному')
-        self.assertEqual(resolve_syntactic(SyntacticReference(text='умный', referral_offset=3), 0, refs_list), 'умному')
-        self.assertEqual(resolve_syntactic(SyntacticReference(text='умный', referral_offset=-1), 3, refs_list), 'умному')
-        self.assertEqual(resolve_syntactic(SyntacticReference(text='умный', referral_offset=-2), 3, refs_list), 'умному')
-        self.assertEqual(resolve_syntactic(SyntacticReference(text='умный', referral_offset=-3), 3, refs_list), 'умному')
+
+        ref = SyntacticReference(text='умный', referral_offset=-1)
+        self.assertEqual(resolve_syntactic(ref, 0, refs_list), '!Некорректное смещение: -1!')
+
+        ref = SyntacticReference(text='умный', referral_offset=1)
+        self.assertEqual(resolve_syntactic(ref, 3, refs_list), '!Некорректное смещение: 1!')
+
+        ref = SyntacticReference(text='умный', referral_offset=1)
+        self.assertEqual(resolve_syntactic(ref, 0, refs_list), 'умному')
+
+        ref = SyntacticReference(text='умный', referral_offset=2)
+        self.assertEqual(resolve_syntactic(ref, 0, refs_list), 'умному')
+
+        ref = SyntacticReference(text='умный', referral_offset=3)
+        self.assertEqual(resolve_syntactic(ref, 0, refs_list), 'умному')
+
+        ref = SyntacticReference(text='умный', referral_offset=-1)
+        self.assertEqual(resolve_syntactic(ref, 3, refs_list), 'умному')
+
+        ref = SyntacticReference(text='умный', referral_offset=-2)
+        self.assertEqual(resolve_syntactic(ref, 3, refs_list), 'умному')
+
+        ref = SyntacticReference(text='умный', referral_offset=-3)
+        self.assertEqual(resolve_syntactic(ref, 3, refs_list), 'умному')
+
 
     def test_resolve_invalid(self):
         self.assertEqual(self.resolver.resolve(''), '')
@@ -57,29 +85,35 @@ class TestResolver(unittest.TestCase):
         self.assertEqual(self.resolver.resolve('simple @{unparsable ref} text'), 'simple @{unparsable ref} text')
         self.assertEqual(len(self.resolver.refs), 0)
 
+
     def test_resolve_single(self):
-        self.assertEqual(self.resolver.resolve('просто @{-1|умный} текст'), 'просто !Некорректное смещение: -1! текст')
+        resolved = self.resolver.resolve('просто @{-1|умный} текст')
+        self.assertEqual(resolved, 'просто !Некорректное смещение: -1! текст')
         self.assertEqual(len(self.resolver.refs), 1)
         self.assertEqual(self.resolver.refs[0].pos_input, Position(7, 18))
         self.assertEqual(self.resolver.refs[0].pos_output, Position(7, 34))
 
-        self.assertEqual(self.resolver.resolve('просто @{X123|sing,nomn} текст'), 'просто !Неизвестная сущность: X123! текст')
+        resolved = self.resolver.resolve('просто @{X123|sing,nomn} текст')
+        self.assertEqual(resolved, 'просто !Неизвестная сущность: X123! текст')
         self.assertEqual(len(self.resolver.refs), 1)
         self.assertEqual(self.resolver.refs[0].pos_input, Position(7, 24))
         self.assertEqual(self.resolver.refs[0].pos_output, Position(7, 35))
 
-        self.assertEqual(self.resolver.resolve('@{X1|sing,nomn}'), 'человек')
+        resolved = self.resolver.resolve('@{X1|sing,nomn}')
+        self.assertEqual(resolved, 'человек')
         self.assertEqual(len(self.resolver.refs), 1)
         self.assertEqual(self.resolver.refs[0].pos_input, Position(0, 15))
         self.assertEqual(self.resolver.refs[0].pos_output, Position(0, 7))
 
-        self.assertEqual(self.resolver.resolve('просто @{X1|sing,nomn} текст'), 'просто человек текст')
+        resolved = self.resolver.resolve('просто @{X1|sing,nomn} текст')
+        self.assertEqual(resolved, 'просто человек текст')
         self.assertEqual(len(self.resolver.refs), 1)
         self.assertEqual(self.resolver.refs[0].pos_input, Position(7, 22))
         self.assertEqual(self.resolver.refs[0].pos_output, Position(7, 14))
 
+
     def test_resolve_multiple(self):
-        input =  '@{X1|sing,datv} @{-1|умный} @{X1|plur} завидуют'
+        input = '@{X1|sing,datv} @{-1|умный} @{X1|plur} завидуют'
         self.assertEqual(self.resolver.resolve(input), 'человеку умному люди завидуют')
         self.assertEqual(len(self.resolver.refs), 3)
         self.assertEqual(self.resolver.refs[0].pos_input, Position(0, 15))
@@ -88,6 +122,7 @@ class TestResolver(unittest.TestCase):
         self.assertEqual(self.resolver.refs[1].pos_output, Position(9, 15))
         self.assertEqual(self.resolver.refs[2].pos_input, Position(28, 38))
         self.assertEqual(self.resolver.refs[2].pos_output, Position(16, 20))
+
 
     def test_resolve_manual_forms(self):
         self.context['X1'] = Entity(
