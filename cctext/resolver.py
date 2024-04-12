@@ -46,6 +46,7 @@ def resolve_syntactic(ref: SyntacticReference, index: int, references: list['Res
             if isinstance(references[index].ref, EntityReference):
                 if offset == 1:
                     master = references[index]
+                    break
                 else:
                     offset -= 1
             index += 1
@@ -55,6 +56,7 @@ def resolve_syntactic(ref: SyntacticReference, index: int, references: list['Res
             if isinstance(references[index].ref, EntityReference):
                 if offset == -1:
                     master = references[index]
+                    break
                 else:
                     offset += 1
             index -= 1

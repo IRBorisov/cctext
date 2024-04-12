@@ -47,8 +47,11 @@ class TestResolver(unittest.TestCase):
 
 
     def test_resolve_syntactic(self):
-        ref = ResolvedReference(ref=EntityReference('X1', 'sing,datv'), resolved='человеку')
-        refs_list = [ref, ref, ref, ref]
+        ref1 = ResolvedReference(ref=EntityReference('X1', 'plur,nomn'), resolved='люди')
+        ref2 = ResolvedReference(ref=EntityReference('X1', 'sing,datv'), resolved='человеку')
+        ref3 = ResolvedReference(ref=EntityReference('X1', 'sing,loct'), resolved='человеке')
+        ref4 = ResolvedReference(ref=EntityReference('X1', 'plur,datv'), resolved='людям')
+        refs_list = [ref1, ref2, ref3, ref4]
 
         ref = SyntacticReference(text='умный', referral_offset=-1)
         self.assertEqual(resolve_syntactic(ref, 0, refs_list), '!Некорректное смещение: -1!')
@@ -60,19 +63,19 @@ class TestResolver(unittest.TestCase):
         self.assertEqual(resolve_syntactic(ref, 0, refs_list), 'умному')
 
         ref = SyntacticReference(text='умный', referral_offset=2)
-        self.assertEqual(resolve_syntactic(ref, 0, refs_list), 'умному')
+        self.assertEqual(resolve_syntactic(ref, 0, refs_list), 'умном')
 
         ref = SyntacticReference(text='умный', referral_offset=3)
-        self.assertEqual(resolve_syntactic(ref, 0, refs_list), 'умному')
+        self.assertEqual(resolve_syntactic(ref, 0, refs_list), 'умным')
 
         ref = SyntacticReference(text='умный', referral_offset=-1)
-        self.assertEqual(resolve_syntactic(ref, 3, refs_list), 'умному')
+        self.assertEqual(resolve_syntactic(ref, 3, refs_list), 'умном')
 
         ref = SyntacticReference(text='умный', referral_offset=-2)
         self.assertEqual(resolve_syntactic(ref, 3, refs_list), 'умному')
 
         ref = SyntacticReference(text='умный', referral_offset=-3)
-        self.assertEqual(resolve_syntactic(ref, 3, refs_list), 'умному')
+        self.assertEqual(resolve_syntactic(ref, 3, refs_list), 'умные')
 
 
     def test_resolve_invalid(self):
