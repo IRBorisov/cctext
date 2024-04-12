@@ -33,6 +33,6 @@ jobs:
         flake8 cctext
         pylint cctext
         mypy cctext
-    - name: Test with pytest
+    - name: Test
       run: |
-        unittest
+        python -m unittest
