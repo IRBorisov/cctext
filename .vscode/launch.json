@@ -24,6 +24,13 @@
       "request": "launch",
       "script": "${workspaceFolder}/scripts/Setup.ps1",
       "args": []
+    },
+    {
+      "name": "Delpoy",
+      "type": "PowerShell",
+      "request": "launch",
+      "script": "${workspaceFolder}/scripts/Deploy.ps1",
+      "args": []
     }
   ]
 }
