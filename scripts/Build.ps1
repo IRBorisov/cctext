@@ -13,7 +13,7 @@ if (Test-Path -Path ${output}) {
     Remove-Item ${output} -Recurse -Force
 }
 
-& ${python} -m build --outdir="${output}\"
+& ${python} -m build --no-isolation --outdir="${output}\"
 $wheel = Get-Childitem -Path "${output}\*.whl" -Name
 if (-not ${wheel}) {
     Write-Error "No wheel generated for ${packageName}"
